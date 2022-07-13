@@ -16,13 +16,13 @@
 
 ![image-20220713205214166](https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220713205214166.png)
 
-代码实现：
+不使用迁移学习：
 
 ![image-20220713205609942](https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220713205609942.png)
 
 ![image-20220713205629802](https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220713205629802.png)
 
-可以看出，手写的resnet一开始loss比迁移学习方法的loss大很多，最终的准确率效果也不如迁移学习。
+可以看出，不使用迁移学习一开始loss比迁移学习方法的loss大很多，最终的准确率效果也不如迁移学习。
 
 # 7.11
 
@@ -39,6 +39,8 @@
 
 第二次：![image-20220705000003245](https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220705000003245.png)
 
+准确率大概在0.9左右
+
 # 7.9
 
 - 成功生成csv文件，方便后续处理
@@ -47,7 +49,6 @@
 
 - 编写实验代码
 
-  
 
 
 # 7.8
@@ -65,8 +66,6 @@
 - 开始尝试多分类模型，拟定使用resnet18，并且尝试比较迁移学习和自己编写的resnet18准确率
 - 进行读取数据部分的代码编写
 
-
-
 # 7.6
 
 - 修改代码bug，对于老师昨天提出的问题进行了实验验证。
@@ -79,37 +78,41 @@
 - 今日开会，老师对于我们之前用图像处理识别不完整图像的工作提出了建议：我们想当然的觉得用传统图像处理的方式一定会比机器学习更快速而且可以一定程度上精简数据，提高模型准去率，但是缺少了实验验证的环节（没有进行时间比对）并且没考虑准确率损失问题。
 - 针对老师提出的问题编写代码，进行实验验证。
 
-# 7.4**
+# 7.4
 
 - 模拟实际生产中，相机会出现的问题：(i)颜色不正；(ii)噪点多；(iii)图像过暗；(iv)图像过曝；(v)镜头畸变
 
 - 颜色不正：这个问题对于我们的项目来说并不重要，因为最终都会转为二值图
 
-  噪点过多：我们考虑在数据集中加入高斯噪声来模拟，并在数据输入时增加去噪操作
+  噪点过多：我们考虑在数据集中加入高斯噪声来模拟，并在数据输入时增加去噪操作（均值滤波、高斯滤波、中值滤波）
 
+  ![image-20220714005823449](https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220714005823449.png)
+  
+  ![image-20220714005704742](https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220714005704742.png)
+  
   图像过暗、过曝：我们会将RGB通道转为HSV（色调H，饱和度S，明度V），调节V的值使图像有过度曝光的效果，将这些数据加入数据集；并在数据处理时增加直方图处理的操作
 
-<img src="C:\Users\xxn\AppData\Roaming\Typora\typora-user-images\image-20220704084414399.png" alt="image-20220704084414399" style="zoom: 67%;" />
+<img src="https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220714003910624.png" alt="image-20220714003910624" style="zoom:67%;" /><img src="https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220714003947490.png" alt="image-20220714003947490" style="zoom:67%;" />
 
-​     镜头畸变：
+​      镜头畸变：鱼眼镜头及鱼眼矫正，不过效果不太好
+
+![image-20220714004053128](https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220714004053128.png)
 
 # 7.2
 
 - 由于缺陷检测只需要关注螺丝的部分，因此尝试闭操作后加上一步开操作，然后统计符合面积范围的点的个数，由此判断是否不完整，效果比前几种方法好很多，该功能基本实现：
 
-  <img src="https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220714003039015.png" alt="image-20220714003039015" style="zoom: 67%;" />
-  
-  <img src="C:\Users\xxn\AppData\Roaming\Typora\typora-user-images\image-20220702102508271.png" alt="image-20220702102508271" style="zoom:50%;" /><img src="C:\Users\xxn\AppData\Roaming\Typora\typora-user-images\image-20220702102434792.png" alt="image-20220702102434792" style="zoom:50%;" />
+  <img src="https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220714003039015.png" alt="image-20220714003039015" style="zoom: 67%;" /><img src="https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220714004235755.png" alt="image-20220714004235755" style="zoom: 67%;" />
 
 # 7.1
 
 - 根据前两种方法的尝试，认为问题出现在检测到的边缘不够连续，造成很多微小的连通域影响判断，因此在选择矩形前增加了对图像的闭操作，获得了比之前更好的效果。
 
-- <img src="C:\Users\xxn\AppData\Roaming\Typora\typora-user-images\image-20220702092056088.png" alt="image-20220702092038547" style="zoom:80%;" /><img src="C:\Users\xxn\AppData\Roaming\Typora\typora-user-images\image-20220702092113218.png" alt="image-20220702092113218" style="zoom:80%;" />
+- ![image-20220714004423560](https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220714004423560.png)![image-20220714004342391](https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220714004342391.png)
 
 - 但是存在问题：对于不完整但不影响整体判断的图像识别有误
 
-  <img src="C:\Users\xxn\AppData\Roaming\Typora\typora-user-images\image-20220702101753645.png" alt="image-20220702101753645" style="zoom: 50%;" />
+  ![image-20220714004357292](https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220714004357292.png)
 
   
 
@@ -117,7 +120,7 @@
 
 - 对图像进行二值化->提取图像中的直线->判断两直线夹角余弦，但是同样提取的直线是断断续续的，效果也不好。由于图片画质因素，很多看似是直线的也未检测出是直线，还有许多散碎的直线并没有连接成长线，此外还有很多噪声直线。
 
-<img src="C:\Users\xxn\AppData\Roaming\Typora\typora-user-images\image-20220702104504302.png" alt="image-20220702104504302" style="zoom:50%;" /><img src="C:\Users\xxn\AppData\Roaming\Typora\typora-user-images\image-20220702104435764.png" alt="image-20220702104435764" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220714004438290.png" alt="image-20220714004438290" style="zoom:50%;" /><img src="https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220714004447273.png" alt="image-20220714004447273" style="zoom:50%;" /><img src="https://raw.githubusercontent.com/FRYBCDL/test1/master/test1/image-20220714004506601.png" alt="image-20220714004506601" style="zoom:50%;" />
 
 
 
